@@ -4,10 +4,14 @@ import * as THREE from "three";
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import Stats from 'stats.js'
 
-import { Button, Select, MenuItem, FormControl, InputLabel, Grid, Accordion, Typography, AccordionDetails, AccordionSummary, TextField } from '@material-ui/core'
+import {
+  Button, Select, MenuItem, FormControl, InputLabel, Grid, Accordion, Typography,
+  Switch, AccordionDetails, AccordionSummary, TextField, Divider, FormControlLabel
+} from '@material-ui/core'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 function App() {
+  const [gridVisibility, setGridVisibility] = useState(false)
   const [preserveBuffer, setPreserveBuffer] = useState(false)
   // eslint-disable-next-line
   const [camera, setCamera] = useState(new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000))
@@ -116,72 +120,139 @@ function App() {
     const f = new FormData(event.target)
     setParams({ sigma: Number(f.get('sigma')), beta: Number(f.get('beta')), rho: Number(f.get('rho')) })
   }
+  const updateGrid = () => {
+    setGridVisibility(!grid.visible);
+    grid.visible = !grid.visible
+  }
   console.log(params)
   return (
     <div>
       <div id='stats' style={{ height: '48px', width: '80px' }}></div>
       <div id='options' style={{ position: 'absolute', right: '5px', top: '0px' }}>
-        <Accordion style={{ width: '175px' }}>
+        <Accordion style={{ width: '500px' }}>
           <AccordionSummary expandIcon={<ExpandMoreIcon />} >
             <Typography>OPTIONS</Typography>
           </AccordionSummary>
           <AccordionDetails>
             <Grid container direction='column'>
+              <Divider></Divider>
+              <Grid item container spacing={2}>
+                <Grid item xs={7}>
+                  <Typography>
+                    Sigma, beta, and rho are parameters for Lorenz equations.
+                    Try changing them and click 'update params'!
+                  </Typography>
+                  <Typography>dx/dt = sigma*(y-x)</Typography>
+                  <Typography>dy/dt = x*(rho-z) - y</Typography>
+                  <Typography>dz/dt = x*y - beta*z</Typography>
+                </Grid>
+                <Grid item xs={5}>
+                  <form onSubmit={updateParams}>
+                    <TextField name='sigma' defaultValue={params.sigma} inputProps={{ type: 'number', step: 'any' }} label='SIGMA' />
+                    <TextField name='beta' defaultValue={params.beta} inputProps={{ type: 'number', step: 'any' }} label='BETA' />
+                    <TextField name='rho' defaultValue={params.rho} inputProps={{ type: 'number', step: 'any' }} label='RHO' />
+                    <Button fullWidth type='submit'>UPDATE PARAMS</Button>
+                  </form>
+                </Grid>
+              </Grid>
+              <Divider></Divider>
 
               <Grid item>
-                <form onSubmit={updateParams}>
-                  <TextField name='sigma' defaultValue={params.sigma} inputProps={{ type: 'number', step: 'any' }} label='Sigma' />
-                  <TextField name='beta' defaultValue={params.beta} inputProps={{ type: 'number', step: 'any' }} label='Beta' />
-                  <TextField name='rho' defaultValue={params.rho} inputProps={{ type: 'number', step: 'any' }} label='Rho' />
-                  <Button fullWidth type='submit'>UPDATE PARAMS</Button>
-                </form>
+                <Grid item container spacing={2}>
+                  <Grid item xs={7}>
+                    <Typography>Chooses how many particles to render your scene with.
+                      If the FPS is low, try setting this to a lower value.</Typography>
+                  </Grid>
+                  <Grid item xs={5}>
+                    <FormControl
+                      fullWidth
+                    >
+                      <InputLabel>PARTICLES</InputLabel>
+                      <Select
+                        value={particles}
+                        onChange={updateParticleCount}
+                      >
+                        <MenuItem value={10000}>10000</MenuItem>
+                        <MenuItem value={20000}>20000</MenuItem>
+                        <MenuItem value={30000}>30000</MenuItem>
+                        <MenuItem value={50000}>50000</MenuItem>
+                        <MenuItem value={100000}>100000</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </Grid>
+                </Grid>
               </Grid>
+              <Divider></Divider>
 
               <Grid item>
-                <FormControl
-                  fullWidth
-                >
-                  <InputLabel>Particles</InputLabel>
-                  <Select
-                    value={particles}
-                    onChange={updateParticleCount}
-                  >
-                    <MenuItem value={10000}>10000</MenuItem>
-                    <MenuItem value={20000}>20000</MenuItem>
-                    <MenuItem value={30000}>30000</MenuItem>
-                    <MenuItem value={50000}>50000</MenuItem>
-                    <MenuItem value={100000}>100000</MenuItem>
-                  </Select>
-                </FormControl>
+                <Grid item container spacing={2}>
+                  <Grid item xs={7}>
+                    <Typography>Chooses what dt is set to for Lorenz equations.
+                      If FPS is low, try setting this to a higher value.</Typography>
+                  </Grid>
+                  <Grid item xs={5}>
+                    <FormControl
+                      fullWidth
+                    >
+                      <InputLabel>TIMESTEP</InputLabel>
+                      <Select
+                        value={dt}
+                        onChange={updateTimeStep}
+                      >
+                        <MenuItem value={.000625}>.000625</MenuItem>
+                        <MenuItem value={.00125}>.00125</MenuItem>
+                        <MenuItem value={.0025}>.005</MenuItem>
+                        <MenuItem value={.005}>.05</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </Grid>
+                </Grid>
               </Grid>
+              <Divider></Divider>
 
               <Grid item>
-                <FormControl
-                  fullWidth
-                >
-                  <InputLabel>Timestep</InputLabel>
-                  <Select
-                    value={dt}
-                    onChange={updateTimeStep}
-                  >
-                    <MenuItem value={.000625}>.000625</MenuItem>
-                    <MenuItem value={.00125}>.00125</MenuItem>
-                    <MenuItem value={.0025}>.005</MenuItem>
-                    <MenuItem value={.005}>.05</MenuItem>
-                  </Select>
-                </FormControl>
+                <Grid item container spacing={2}>
+                  <Grid item xs={7}>
+                    <Typography>Sets whether old pixels are cleared before the next frame is drawn.</Typography>
+                  </Grid>
+                  <Grid item xs={5}>
+                    <FormControlLabel
+                      control={<Switch checked={preserveBuffer} onChange={() => setPreserveBuffer(!preserveBuffer)}></Switch>}
+                      label={<Typography style={{ fontSize: '.875rem' }}>KEEP BUFFER</Typography>}
+                      labelPlacement='start'
+                    />
+                    {/* <Button fullWidth onClick={() => setPreserveBuffer(!preserveBuffer)}>Keep Buffer</Button> */}
+                  </Grid>
+                </Grid>
               </Grid>
-              <Grid item>
-                <Button fullWidth onClick={() => setPreserveBuffer(!preserveBuffer)}>Keep Buffer</Button>
-              </Grid>
+              <Divider></Divider>
 
               <Grid item>
-                <Button fullWidth onClick={() => camera.position.set(0, 0, 75)}>Zero Camera</Button>
+                <Grid item container spacing={2}>
+                  <Grid item xs={7}>
+                    <Typography>Toggles visibility of gridlines.</Typography>
+                  </Grid>
+                  <Grid item xs={5}>
+                    <FormControlLabel
+                      control={<Switch checked={gridVisibility} onChange={updateGrid}></Switch>}
+                      label={<Typography style={{ fontSize: '.875rem' }}>TOGGLE GRID</Typography>}
+                      labelPlacement='start'
+                    />
+                  </Grid>
+                </Grid>
               </Grid>
-              <Grid item>
-                <Button fullWidth onClick={() => { grid.visible = !grid.visible }}>Show Grid</Button>
-              </Grid>
+              <Divider></Divider>
 
+              <Grid item>
+                <Grid item container spacing={2}>
+                  <Grid item xs={7}>
+                    <Typography>Resets the camera position/rotation.</Typography>
+                  </Grid>
+                  <Grid item xs={5}>
+                    <Button fullWidth onClick={() => camera.position.set(0, 0, 75)}>Zero Camera</Button>
+                  </Grid>
+                </Grid>
+              </Grid>
             </Grid>
           </AccordionDetails>
         </Accordion>
