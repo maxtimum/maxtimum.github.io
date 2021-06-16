@@ -5,10 +5,12 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import Stats from 'stats.js'
 
 import {
-  Button, Select, MenuItem, FormControl, InputLabel, Grid, Accordion, Typography,
-  Switch, AccordionDetails, AccordionSummary, TextField, Divider, FormControlLabel
+  Button, Select, MenuItem, FormControl, InputLabel, Grid, Slide, Typography,
+  Switch, TextField, Divider, FormControlLabel, IconButton, Paper, Link
 } from '@material-ui/core'
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import SettingsIcon from '@material-ui/icons/Settings'
 
 function App() {
   const [gridVisibility, setGridVisibility] = useState(false)
@@ -23,9 +25,10 @@ function App() {
   const [params, setParams] = useState({ sigma: 10, rho: 28, beta: 8.0 / 3.0 })
   useEffect(() => {
     // show stats
+
     const stats = new Stats()
-    stats.showPanel(0)
-    document.getElementById('stats').appendChild(stats.dom)
+    // stats.showPanel(0)
+    // document.getElementById('stats').appendChild(stats.dom)
     const scene = new THREE.Scene();
     // scene.background = new THREE.Color(0x121212)
     grid.visible = false;
@@ -124,29 +127,28 @@ function App() {
     setGridVisibility(!grid.visible);
     grid.visible = !grid.visible
   }
-  console.log(params)
+  const [options, setOptionsOpen] = useState(false)
   return (
     <div>
       <div id='stats' style={{ height: '48px', width: '80px' }}></div>
       <div id='options' style={{ position: 'absolute', right: '5px', top: '0px' }}>
-        <Accordion style={{ width: '500px' }}>
-          <AccordionSummary expandIcon={<ExpandMoreIcon />} >
-            <Typography>OPTIONS</Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <Grid container direction='column'>
-              <Divider></Divider>
-              <Grid item container spacing={2}>
-                <Grid item xs={7}>
-                  <Typography>
-                    Sigma, beta, and rho are parameters for Lorenz equations.
-                    Try changing them and click 'update params'!
-                  </Typography>
+        <Paper style={{ position: 'absolute', right: '5px', top: '0px' }}>
+          <IconButton onClick={() => setOptionsOpen(!options)}>
+            {options ? <><ChevronRightIcon /><SettingsIcon /></> : <><ChevronLeftIcon /><SettingsIcon /></>}
+          </IconButton>
+        </Paper>
+        <Slide direction='left' in={options} mountOnEnter unmountOnExit>
+          <Paper style={{ position: 'absolute', top: '52px', right: '5px', width: '500px', overflow: 'hidden' }}>
+            <Grid container direction='column' style={{ padding: '.85rem' }}>
+              <Grid item container spacing={1}>
+                <Grid item xs={8}>
+                  <Typography>Sigma, beta, and rho are parameters for Lorenz equations ({<Link href='https://en.wikipedia.org/wiki/Lorenz_system' target='_blank' rel="noreferrer">Wikipedia</Link>})</Typography>
+                  <Typography>Try changing them and click 'update params' to restart the simulation!</Typography>
                   <Typography>dx/dt = sigma*(y-x)</Typography>
                   <Typography>dy/dt = x*(rho-z) - y</Typography>
                   <Typography>dz/dt = x*y - beta*z</Typography>
                 </Grid>
-                <Grid item xs={5}>
+                <Grid item xs={4}>
                   <form onSubmit={updateParams}>
                     <TextField name='sigma' defaultValue={params.sigma} inputProps={{ type: 'number', step: 'any' }} label='SIGMA' />
                     <TextField name='beta' defaultValue={params.beta} inputProps={{ type: 'number', step: 'any' }} label='BETA' />
@@ -155,15 +157,15 @@ function App() {
                   </form>
                 </Grid>
               </Grid>
-              <Divider></Divider>
+              <Divider style={{ marginTop: '4px', marginBottom: '4px' }}></Divider>
 
               <Grid item>
-                <Grid item container spacing={2}>
-                  <Grid item xs={7}>
+                <Grid item container spacing={1}>
+                  <Grid item xs={8}>
                     <Typography>Chooses how many particles to render your scene with.
                       If the FPS is low, try setting this to a lower value.</Typography>
                   </Grid>
-                  <Grid item xs={5}>
+                  <Grid item xs={4}>
                     <FormControl
                       fullWidth
                     >
@@ -182,15 +184,15 @@ function App() {
                   </Grid>
                 </Grid>
               </Grid>
-              <Divider></Divider>
+              <Divider style={{ marginTop: '4px', marginBottom: '4px' }}></Divider>
 
               <Grid item>
-                <Grid item container spacing={2}>
-                  <Grid item xs={7}>
+                <Grid item container spacing={1}>
+                  <Grid item xs={8}>
                     <Typography>Chooses what dt is set to for Lorenz equations.
-                      If FPS is low, try setting this to a higher value.</Typography>
+                      If FPS is low, try setting this to a&nbsp;higher value.</Typography>
                   </Grid>
-                  <Grid item xs={5}>
+                  <Grid item xs={4}>
                     <FormControl
                       fullWidth
                     >
@@ -208,31 +210,30 @@ function App() {
                   </Grid>
                 </Grid>
               </Grid>
-              <Divider></Divider>
+              <Divider style={{ marginTop: '4px', marginBottom: '4px' }}></Divider>
 
               <Grid item>
-                <Grid item container spacing={2}>
-                  <Grid item xs={7}>
+                <Grid item container spacing={1}>
+                  <Grid item xs={8}>
                     <Typography>Sets whether old pixels are cleared before the next frame is drawn.</Typography>
                   </Grid>
-                  <Grid item xs={5}>
+                  <Grid item xs={4}>
                     <FormControlLabel
                       control={<Switch checked={preserveBuffer} onChange={() => setPreserveBuffer(!preserveBuffer)}></Switch>}
-                      label={<Typography style={{ fontSize: '.875rem' }}>KEEP BUFFER</Typography>}
+                      label={<Typography style={{ fontSize: '.875rem' }}>TOGGLE BUFFER</Typography>}
                       labelPlacement='start'
                     />
-                    {/* <Button fullWidth onClick={() => setPreserveBuffer(!preserveBuffer)}>Keep Buffer</Button> */}
                   </Grid>
                 </Grid>
               </Grid>
-              <Divider></Divider>
+              <Divider style={{ marginTop: '4px', marginBottom: '4px' }}></Divider>
 
               <Grid item>
-                <Grid item container spacing={2}>
-                  <Grid item xs={7}>
+                <Grid item container spacing={1}>
+                  <Grid item xs={8}>
                     <Typography>Toggles visibility of gridlines.</Typography>
                   </Grid>
-                  <Grid item xs={5}>
+                  <Grid item xs={4}>
                     <FormControlLabel
                       control={<Switch checked={gridVisibility} onChange={updateGrid}></Switch>}
                       label={<Typography style={{ fontSize: '.875rem' }}>TOGGLE GRID</Typography>}
@@ -241,22 +242,21 @@ function App() {
                   </Grid>
                 </Grid>
               </Grid>
-              <Divider></Divider>
+              <Divider style={{ marginTop: '4px', marginBottom: '4px' }}></Divider>
 
               <Grid item>
-                <Grid item container spacing={2}>
-                  <Grid item xs={7}>
+                <Grid item container spacing={1}>
+                  <Grid item xs={8}>
                     <Typography>Resets the camera position/rotation.</Typography>
                   </Grid>
-                  <Grid item xs={5}>
+                  <Grid item xs={4}>
                     <Button fullWidth onClick={() => camera.position.set(0, 0, 75)}>Zero Camera</Button>
                   </Grid>
                 </Grid>
               </Grid>
             </Grid>
-          </AccordionDetails>
-        </Accordion>
-
+          </Paper>
+        </Slide>
       </div>
     </div >
   );
