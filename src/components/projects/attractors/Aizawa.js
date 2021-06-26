@@ -51,7 +51,7 @@ export default class Aizawa {
                     <TextField name='d' defaultValue={this.params.d} inputProps={{ type: 'number', step: 'any' }} label='D' />
                     <TextField name='e' defaultValue={this.params.e} inputProps={{ type: 'number', step: 'any' }} label='E' />
                     <TextField name='f' defaultValue={this.params.f} inputProps={{ type: 'number', step: 'any' }} label='F' />
-                    <Button fullWidth type='submit'>UPDATE PARAMS</Button>
+                    <Button fullWidth type='submit'>UPDATE</Button>
                 </form>
             </Grid>
         </>

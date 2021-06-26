@@ -15,6 +15,7 @@ import Lorenz from './Lorenz';
 import Thomas from './Thomas';
 import Aizawa from './Aizawa';
 import Dadras from './Dadras';
+import Chen from './Chen';
 
 function Attractors() {
     document.title = "~/p/strange-attractors"
@@ -25,7 +26,7 @@ function Attractors() {
     const [particles, setParticles] = useState(20000)
     const [dt, setDT] = useState(.00125)
 
-    const attractors = [new Lorenz(), new Thomas(), new Aizawa(), new Dadras()]
+    const attractors = [new Lorenz(), new Thomas(), new Aizawa(), new Dadras(), new Chen()]
     const [attractor, setAttractor] = useState(attractors[0])
 
     useEffect(() => {
@@ -110,6 +111,9 @@ function Attractors() {
         } else if (idx === 3) {
             attractors[3] = new Dadras(p, dt)
             setAttractor(attractors[3])
+        } else if (idx === 4) {
+            attractors[4] = new Chen(p, dt)
+            setAttractor(attractors[4])
         }
     })
 
@@ -131,14 +135,14 @@ function Attractors() {
     const [options, setOptionsOpen] = useState(false)
     return (
         <div>
-            <div id='options' style={{ position: 'absolute', right: '5px', top: '0px' }}>
-                <Paper style={{ position: 'absolute', right: '5px', top: '0px' }}>
+            <div id='options' style={{ position: 'absolute', right: '0px', top: '0px' }}>
+                <Paper style={{ position: 'absolute', right: '0px', top: '0px' }}>
                     <IconButton onClick={() => setOptionsOpen(!options)}>
                         {options ? <><ChevronRightIcon /><SettingsIcon /></> : <><ChevronLeftIcon /><SettingsIcon /></>}
                     </IconButton>
                 </Paper>
                 <Slide direction='left' in={options} mountOnEnter unmountOnExit>
-                    <Paper style={{ position: 'absolute', top: '52px', right: '5px', width: '500px', overflow: 'hidden' }}>
+                    <Paper style={{ position: 'absolute', top: '52px', right: '0px', width: '500px', overflow: 'hidden' }}>
                         <Grid container direction='column' style={{ padding: '.85rem' }}>
                             <Grid item xs={12} style={{ marginBottom: '4px' }}>
                                 <FormControl
@@ -153,6 +157,7 @@ function Attractors() {
                                         <MenuItem value={1}>THOMAS</MenuItem>
                                         <MenuItem value={2}>AIZAWA</MenuItem>
                                         <MenuItem value={3}>DADRAS</MenuItem>
+                                        <MenuItem value={4}>CHEN</MenuItem>
                                     </Select>
                                 </FormControl>
                             </Grid>

@@ -47,7 +47,7 @@ export default class Dadras {
                     <TextField name='c' defaultValue={this.params.c} inputProps={{ type: 'number', step: 'any' }} label='C' />
                     <TextField name='d' defaultValue={this.params.d} inputProps={{ type: 'number', step: 'any' }} label='D' />
                     <TextField name='e' defaultValue={this.params.e} inputProps={{ type: 'number', step: 'any' }} label='E' />
-                    <Button fullWidth type='submit'>UPDATE PARAMS</Button>
+                    <Button fullWidth type='submit'>UPDATE</Button>
                 </form>
             </Grid>
         </>
