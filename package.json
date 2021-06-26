@@ -19,7 +19,7 @@
     },
     "scripts": {
         "start": "react-scripts start",
-        "build": "time(rm -rf ./static ./build && react-scripts build && mv ./build/* ./ && node -e \"let d = new Date().toLocaleString().split(',')[0] + ' gh-pages update'; require('child_process').execSync(`git checkout gh-pages && git add -A && git commit -m \"\"${d}\"\" && git push`, {stdio: [0,1,2]});\")",
+        "build": "rm -rf ./static ./build && react-scripts build && mv ./build/* ./ && node -e \"let d = new Date().toLocaleString().split(',')[0] + ' gh-pages update'; require('child_process').execSync(`git checkout gh-pages && git add -A && git commit -m \"\"${d}\"\" && git push`, {stdio: [0,1,2]});\"",
         "test": "react-scripts test",
         "eject": "react-scripts eject"
     },
