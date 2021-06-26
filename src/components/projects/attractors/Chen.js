@@ -2,7 +2,7 @@ import { Grid, Typography, Link, TextField, Button } from "@material-ui/core"
 function updateParams(event) {
     event.preventDefault()
     const f = new FormData(event.target)
-    const res = { alpha: Number(f.get('alpha')), beta: Number(f.get('beta')), delta: Number(f.get('delta')) }
+    const res = { alpha: Number(f.get('chen_alpha')), beta: Number(f.get('chen_beta')), delta: Number(f.get('chen_delta')) }
     document.dispatchEvent(new CustomEvent('attractor_updated', { detail: { idx: 4, p: res } }))
 }
 export default class Chen {
@@ -39,9 +39,9 @@ export default class Chen {
             </Grid>
             <Grid item xs={4}>
                 <form onSubmit={updateParams}>
-                    <TextField name='alpha' defaultValue={this.params.alpha} inputProps={{ type: 'number', step: 'any' }} label='ALPHA' />
-                    <TextField name='beta' defaultValue={this.params.beta} inputProps={{ type: 'number', step: 'any' }} label='BETA' />
-                    <TextField name='delta' defaultValue={this.params.delta} inputProps={{ type: 'number', step: 'any' }} label='DELTA' />
+                    <TextField name='chen_alpha' defaultValue={this.params.alpha} inputProps={{ type: 'number', step: 'any' }} label='ALPHA' />
+                    <TextField name='chen_beta' defaultValue={this.params.beta} inputProps={{ type: 'number', step: 'any' }} label='BETA' />
+                    <TextField name='chen_delta' defaultValue={this.params.delta} inputProps={{ type: 'number', step: 'any' }} label='DELTA' />
                     <Button fullWidth type='submit'>UPDATE</Button>
                 </form>
             </Grid>

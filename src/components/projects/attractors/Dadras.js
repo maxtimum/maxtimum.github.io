@@ -3,8 +3,8 @@ function updateParams(event) {
     event.preventDefault()
     const f = new FormData(event.target)
     const res = {
-        a: Number(f.get('a')), b: Number(f.get('b')), c: Number(f.get('c')),
-        d: Number(f.get('d')), e: Number(f.get('e'))
+        a: Number(f.get('dadras_a')), b: Number(f.get('dadras_b')), c: Number(f.get('dadras_c')),
+        d: Number(f.get('dadras_d')), e: Number(f.get('dadras_e'))
     }
     document.dispatchEvent(new CustomEvent('attractor_updated', { detail: { idx: 3, p: res } }))
 }
@@ -42,11 +42,11 @@ export default class Dadras {
             </Grid>
             <Grid item xs={4}>
                 <form onSubmit={updateParams}>
-                    <TextField name='a' defaultValue={this.params.a} inputProps={{ type: 'number', step: 'any' }} label='A' />
-                    <TextField name='b' defaultValue={this.params.b} inputProps={{ type: 'number', step: 'any' }} label='B' />
-                    <TextField name='c' defaultValue={this.params.c} inputProps={{ type: 'number', step: 'any' }} label='C' />
-                    <TextField name='d' defaultValue={this.params.d} inputProps={{ type: 'number', step: 'any' }} label='D' />
-                    <TextField name='e' defaultValue={this.params.e} inputProps={{ type: 'number', step: 'any' }} label='E' />
+                    <TextField name='dadras_a' defaultValue={this.params.a} inputProps={{ type: 'number', step: 'any' }} label='A' />
+                    <TextField name='dadras_b' defaultValue={this.params.b} inputProps={{ type: 'number', step: 'any' }} label='B' />
+                    <TextField name='dadras_c' defaultValue={this.params.c} inputProps={{ type: 'number', step: 'any' }} label='C' />
+                    <TextField name='dadras_d' defaultValue={this.params.d} inputProps={{ type: 'number', step: 'any' }} label='D' />
+                    <TextField name='dadras_e' defaultValue={this.params.e} inputProps={{ type: 'number', step: 'any' }} label='E' />
                     <Button fullWidth type='submit'>UPDATE</Button>
                 </form>
             </Grid>

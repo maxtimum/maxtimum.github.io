@@ -2,7 +2,7 @@ import { Grid, Typography, Link, TextField, Button } from "@material-ui/core"
 function updateParams(event) {
     event.preventDefault()
     const f = new FormData(event.target)
-    const res = { b: Number(f.get('b')) }
+    const res = { b: Number(f.get('thomas_b')) }
     document.dispatchEvent(new CustomEvent('attractor_updated', { detail: { idx: 1, p: res } }))
 }
 export default class Thomas {
@@ -39,7 +39,7 @@ export default class Thomas {
             </Grid>
             <Grid item xs={4}>
                 <form onSubmit={updateParams}>
-                    <TextField name='b' defaultValue={this.params.b} inputProps={{ type: 'number', step: 'any' }} label='B' />
+                    <TextField name='thomas_b' defaultValue={this.params.b} inputProps={{ type: 'number', step: 'any' }} label='B' />
                     <Button fullWidth type='submit'>UPDATE</Button>
                 </form>
             </Grid>

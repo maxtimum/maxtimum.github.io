@@ -2,7 +2,7 @@ import { Grid, Typography, Link, TextField, Button } from "@material-ui/core"
 function updateParams(event) {
     event.preventDefault()
     const f = new FormData(event.target)
-    const res = { sigma: Number(f.get('sigma')), beta: Number(f.get('beta')), rho: Number(f.get('rho')) }
+    const res = { sigma: Number(f.get('lorenz_sigma')), beta: Number(f.get('lorenz_beta')), rho: Number(f.get('lorenz_rho')) }
     document.dispatchEvent(new CustomEvent('attractor_updated', { detail: { idx: 0, p: res } }))
 }
 export default class Lorenz {
@@ -39,9 +39,9 @@ export default class Lorenz {
             </Grid>
             <Grid item xs={4}>
                 <form onSubmit={updateParams}>
-                    <TextField name='sigma' defaultValue={this.params.sigma} inputProps={{ type: 'number', step: 'any' }} label='SIGMA' />
-                    <TextField name='beta' defaultValue={this.params.beta} inputProps={{ type: 'number', step: 'any' }} label='BETA' />
-                    <TextField name='rho' defaultValue={this.params.rho} inputProps={{ type: 'number', step: 'any' }} label='RHO' />
+                    <TextField name='lorenz_sigma' defaultValue={this.params.sigma} inputProps={{ type: 'number', step: 'any' }} label='SIGMA' />
+                    <TextField name='lorenz_beta' defaultValue={this.params.beta} inputProps={{ type: 'number', step: 'any' }} label='BETA' />
+                    <TextField name='lorenz_rho' defaultValue={this.params.rho} inputProps={{ type: 'number', step: 'any' }} label='RHO' />
                     <Button fullWidth type='submit'>UPDATE</Button>
                 </form>
             </Grid>
