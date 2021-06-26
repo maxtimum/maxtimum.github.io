@@ -3,8 +3,8 @@ function updateParams(event) {
     event.preventDefault()
     const f = new FormData(event.target)
     const res = {
-        a: Number(f.get('a')), b: Number(f.get('b')), c: Number(f.get('c')),
-        d: Number(f.get('d')), e: Number(f.get('e')), f: Number(f.get('f'))
+        a: Number(f.get('aizawa_a')), b: Number(f.get('aizawa_b')), c: Number(f.get('aizawa_c')),
+        d: Number(f.get('aizawa_d')), e: Number(f.get('aizawa_e')), f: Number(f.get('aizawa_f'))
     }
     document.dispatchEvent(new CustomEvent('attractor_updated', { detail: { idx: 2, p: res } }))
 }
@@ -45,12 +45,12 @@ export default class Aizawa {
             </Grid>
             <Grid item xs={4}>
                 <form onSubmit={updateParams}>
-                    <TextField name='a' defaultValue={this.params.a} inputProps={{ type: 'number', step: 'any' }} label='A' />
-                    <TextField name='b' defaultValue={this.params.b} inputProps={{ type: 'number', step: 'any' }} label='B' />
-                    <TextField name='c' defaultValue={this.params.c} inputProps={{ type: 'number', step: 'any' }} label='C' />
-                    <TextField name='d' defaultValue={this.params.d} inputProps={{ type: 'number', step: 'any' }} label='D' />
-                    <TextField name='e' defaultValue={this.params.e} inputProps={{ type: 'number', step: 'any' }} label='E' />
-                    <TextField name='f' defaultValue={this.params.f} inputProps={{ type: 'number', step: 'any' }} label='F' />
+                    <TextField name='aizawa_a' defaultValue={this.params.a} inputProps={{ type: 'number', step: 'any' }} label='A' />
+                    <TextField name='aizawa_b' defaultValue={this.params.b} inputProps={{ type: 'number', step: 'any' }} label='B' />
+                    <TextField name='aizawa_c' defaultValue={this.params.c} inputProps={{ type: 'number', step: 'any' }} label='C' />
+                    <TextField name='aizawa_d' defaultValue={this.params.d} inputProps={{ type: 'number', step: 'any' }} label='D' />
+                    <TextField name='aizawa_e' defaultValue={this.params.e} inputProps={{ type: 'number', step: 'any' }} label='E' />
+                    <TextField name='aizawa_f' defaultValue={this.params.f} inputProps={{ type: 'number', step: 'any' }} label='F' />
                     <Button fullWidth type='submit'>UPDATE</Button>
                 </form>
             </Grid>
