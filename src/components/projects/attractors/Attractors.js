@@ -20,9 +20,14 @@ import Chen from './Chen';
 function Attractors() {
     document.title = "~/p/strange-attractors"
     const [gridVisibility, setGridVisibility] = useState(false)
-    const [preserveBuffer, setPreserveBuffer] = useState(false)// eslint-disable-next-line
-    const [camera, setCamera] = useState(new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000))// eslint-disable-next-line
+    const [preserveBuffer, setPreserveBuffer] = useState(false)
+    const [options, setOptionsOpen] = useState()
+
+    // eslint-disable-next-line
+    const [camera, setCamera] = useState(new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000))
+    // eslint-disable-next-line
     const [grid, setGrid] = useState(new THREE.GridHelper(150, 150))
+
     const [particles, setParticles] = useState(20000)
     const [dt, setDT] = useState(.00125)
 
@@ -30,6 +35,7 @@ function Attractors() {
     const [attractor, setAttractor] = useState(attractors[0])
 
     useEffect(() => {
+        setOptionsOpen(false)
         const scene = new THREE.Scene();
         grid.visible = false;
         scene.add(grid);
@@ -132,7 +138,6 @@ function Attractors() {
         setGridVisibility(!grid.visible);
         grid.visible = !grid.visible
     }
-    const [options, setOptionsOpen] = useState(false)
     return (
         <div>
             <div id='options' style={{ position: 'absolute', right: '0px', top: '0px' }}>
@@ -142,7 +147,7 @@ function Attractors() {
                     </IconButton>
                 </Paper>
                 <Slide direction='left' in={options} mountOnEnter unmountOnExit>
-                    <Paper style={{ position: 'absolute', top: '52px', right: '0px', width: '500px', overflow: 'hidden' }}>
+                    <Paper style={{ position: 'absolute', top: '52px', right: '0px', width: '500px', overflowY: 'scroll' }}>
                         <Grid container direction='column' style={{ padding: '.85rem' }}>
                             <Grid item xs={12} style={{ marginBottom: '4px' }}>
                                 <FormControl
