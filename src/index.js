@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { HashRouter, Switch, Route } from 'react-router-dom';
 import './index.css';
-import App from './App';
+import Attractors from './Attractors';
 
 ReactDOM.render(
     <HashRouter>
@@ -14,7 +14,7 @@ ReactDOM.render(
                 <div>all projects</div>
             </Route>
             <Route exact path='/'>
-                <App />
+                <Attractors />
             </Route>
         </Switch>
     </HashRouter>,
