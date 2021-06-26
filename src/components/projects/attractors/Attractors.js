@@ -13,7 +13,8 @@ import SettingsIcon from '@material-ui/icons/Settings'
 
 import Lorenz from './Lorenz';
 import Thomas from './Thomas';
-import Aizawa from './Aizawa'
+import Aizawa from './Aizawa';
+import Dadras from './Dadras';
 
 function Attractors() {
     document.title = "~/p/strange-attractors"
@@ -24,7 +25,7 @@ function Attractors() {
     const [particles, setParticles] = useState(20000)
     const [dt, setDT] = useState(.00125)
 
-    const attractors = [new Lorenz(), new Thomas(), new Aizawa()]
+    const attractors = [new Lorenz(), new Thomas(), new Aizawa(), new Dadras()]
     const [attractor, setAttractor] = useState(attractors[0])
 
     useEffect(() => {
@@ -106,6 +107,9 @@ function Attractors() {
         } else if (idx === 2) {
             attractors[2] = new Aizawa(p, dt)
             setAttractor(attractors[2])
+        } else if (idx === 3) {
+            attractors[3] = new Dadras(p, dt)
+            setAttractor(attractors[3])
         }
     })
 
@@ -146,6 +150,7 @@ function Attractors() {
                                         <MenuItem value={0}>LORENZ</MenuItem>
                                         <MenuItem value={1}>THOMAS</MenuItem>
                                         <MenuItem value={2}>AIZAWA</MenuItem>
+                                        <MenuItem value={3}>DADRAS</MenuItem>
                                     </Select>
                                 </FormControl>
                             </Grid>
