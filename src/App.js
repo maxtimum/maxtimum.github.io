@@ -65,7 +65,7 @@ function App() {
 
         const light = new THREE.AmbientLight(0xffffff, 100);
         scene.add(light);
-        camera.position.z = 75;
+        camera.position.z = 50;
         camera.position.x = 0;
         camera.position.y = 0;
         controls.update();
@@ -235,7 +235,7 @@ function App() {
                                         <Typography>Resets the camera position/rotation.</Typography>
                                     </Grid>
                                     <Grid item xs={4}>
-                                        <Button fullWidth onClick={() => camera.position.set(0, 0, 75)}>Zero Camera</Button>
+                                        <Button fullWidth onClick={() => camera.position.set(0, 0, 50)}>Zero Camera</Button>
                                     </Grid>
                                 </Grid>
                             </Grid>
