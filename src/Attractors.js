@@ -14,7 +14,7 @@ import SettingsIcon from '@material-ui/icons/Settings'
 import Lorenz from './components/attractors/Lorenz';
 import Thomas from './components/attractors/Thomas';
 
-function App() {
+function Attractors() {
     const [gridVisibility, setGridVisibility] = useState(false)
     const [preserveBuffer, setPreserveBuffer] = useState(false)// eslint-disable-next-line
     const [camera, setCamera] = useState(new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000))// eslint-disable-next-line
@@ -246,4 +246,4 @@ function App() {
     );
 }
 
-export default App;
+export default Attractors;
