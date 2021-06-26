@@ -11,10 +11,12 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import SettingsIcon from '@material-ui/icons/Settings'
 
-import Lorenz from '.Lorenz';
+import Lorenz from './Lorenz';
 import Thomas from './Thomas';
+import Aizawa from './Aizawa'
 
 function Attractors() {
+    document.title = "~/p/strange-attractors"
     const [gridVisibility, setGridVisibility] = useState(false)
     const [preserveBuffer, setPreserveBuffer] = useState(false)// eslint-disable-next-line
     const [camera, setCamera] = useState(new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000))// eslint-disable-next-line
@@ -22,7 +24,7 @@ function Attractors() {
     const [particles, setParticles] = useState(20000)
     const [dt, setDT] = useState(.00125)
 
-    const attractors = [new Lorenz(), new Thomas()]
+    const attractors = [new Lorenz(), new Thomas(), new Aizawa()]
     const [attractor, setAttractor] = useState(attractors[0])
 
     useEffect(() => {
@@ -49,11 +51,18 @@ function Attractors() {
         const positions = [];
         const colors = [];
         for (let i = 0; i < particles; i++) {
-            const x = (Math.random() * 25);
-            const y = (Math.random() * 25);
-            const z = (Math.random() * 25);
-            positions.push(x, y, z)
+            let x = (Math.random() * 25) - 25;
+            let y = (Math.random() * 25) - 25;
+            let z = (Math.random() * 25) - 25;
             color.setRGB(Math.abs(x / 25), Math.abs(y / 25), Math.abs(z / 25));
+            if (attractor.constructor.name === 'Aizawa') {
+                // really doesn't enjoy z < 0; sort of a hacky fix
+                x = (Math.random() * 5) - 5;
+                y = (Math.random() * 5) - 5;
+                z = (Math.random() * 5);
+                color.setRGB(Math.abs(x / 5), Math.abs(y / 5), Math.abs(z / 5));
+            }
+            positions.push(x, y, z)
             colors.push(color.r, color.g, color.b);
         }
 
@@ -65,14 +74,15 @@ function Attractors() {
 
         const light = new THREE.AmbientLight(0xffffff, 100);
         scene.add(light);
-        camera.position.z = 50;
-        camera.position.x = 0;
-        camera.position.y = 0;
+        camera.position.x = attractor.defaultCam.x;
+        camera.position.y = attractor.defaultCam.y;
+        camera.position.z = attractor.defaultCam.z;
         controls.update();
         var animate = () => {
             requestAnimationFrame(animate);
             attractor.updatePTS(points.geometry.attributes.position.array)
             points.geometry.attributes.position.needsUpdate = true;
+            // console.log(camera.position)
             controls.update();
             renderer.render(scene, camera);
         };
@@ -88,13 +98,14 @@ function Attractors() {
         const idx = e.detail.idx
         const p = e.detail.p
         if (idx === 0) {
-            camera.position.set(0, 0, 75)
             attractors[0] = new Lorenz(p, dt)
             setAttractor(attractors[0])
         } else if (idx === 1) {
-            camera.position.set(0, 0, 15)
             attractors[1] = new Thomas(p, dt)
             setAttractor(attractors[1])
+        } else if (idx === 2) {
+            attractors[2] = new Aizawa(p, dt)
+            setAttractor(attractors[2])
         }
     })
 
@@ -134,6 +145,7 @@ function Attractors() {
                                     >
                                         <MenuItem value={0}>LORENZ</MenuItem>
                                         <MenuItem value={1}>THOMAS</MenuItem>
+                                        <MenuItem value={2}>AIZAWA</MenuItem>
                                     </Select>
                                 </FormControl>
                             </Grid>
@@ -234,7 +246,7 @@ function Attractors() {
                                         <Typography>Resets the camera position/rotation.</Typography>
                                     </Grid>
                                     <Grid item xs={4}>
-                                        <Button fullWidth onClick={() => camera.position.set(0, 0, 50)}>Zero Camera</Button>
+                                        <Button fullWidth onClick={() => camera.position.set(attractor.defaultCam.x, attractor.defaultCam.y, attractor.defaultCam.z)}>Zero Camera</Button>
                                     </Grid>
                                 </Grid>
                             </Grid>
