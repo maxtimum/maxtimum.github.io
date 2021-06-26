@@ -10,10 +10,10 @@ export default class Thomas {
         this.idx = 1
         this.params = params
         this.dt = 10 * dt
+        this.defaultCam = { x: 0, y: 0, z: 30 }
     }
     updatePTS(positions) {
         for (let i = 0; i < positions.length; i += 3) {
-            // console.log(i, positions[i], positions[i + 1], positions[i + 2])
             const _x = positions[i]
             const _y = positions[i + 1]
             const _z = positions[i + 2]
