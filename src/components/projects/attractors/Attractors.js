@@ -5,7 +5,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 
 import {
     Button, Select, MenuItem, FormControl, InputLabel, Grid, Slide, Typography,
-    Switch, Divider, FormControlLabel, IconButton, Paper
+    Switch, Divider, FormControlLabel, IconButton, Paper, TextField
 } from '@material-ui/core'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
@@ -117,7 +117,9 @@ function Attractors() {
         setAttractor(attractors[e.target.value])
     }
     const updateParticleCount = (event) => {
-        setParticles(event.target.value);
+        event.preventDefault()
+        const f = new FormData(event.target)
+        setParticles(Number(f.get('particles')))
     };
     const updateTimeStep = (event) => {
         setDT(event.target.value);
@@ -167,21 +169,10 @@ function Attractors() {
                                             If the FPS is low, try setting this to a lower value.</Typography>
                                     </Grid>
                                     <Grid item xs={4}>
-                                        <FormControl
-                                            fullWidth
-                                        >
-                                            <InputLabel>PARTICLES</InputLabel>
-                                            <Select
-                                                value={particles}
-                                                onChange={updateParticleCount}
-                                            >
-                                                <MenuItem value={10000}>10000</MenuItem>
-                                                <MenuItem value={20000}>20000</MenuItem>
-                                                <MenuItem value={30000}>30000</MenuItem>
-                                                <MenuItem value={50000}>50000</MenuItem>
-                                                <MenuItem value={100000}>100000</MenuItem>
-                                            </Select>
-                                        </FormControl>
+                                        <form onSubmit={updateParticleCount}>
+                                            <TextField name='particles' defaultValue={particles} inputProps={{ type: 'number', step: 'any', min: '1' }} label='PARTICLE COUNT' />
+                                            <Button fullWidth type='submit'>UPDATE</Button>
+                                        </form>
                                     </Grid>
                                 </Grid>
                             </Grid>
