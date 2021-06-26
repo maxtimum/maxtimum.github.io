@@ -5,20 +5,18 @@ import './index.css';
 import App from './App';
 
 ReactDOM.render(
-    <React.StrictMode>
-        <HashRouter>
-            <Switch>
-                <Route exact path='/proj/viz'>
-                    <div>visualizer</div>
-                </Route>
-                <Route exact path='/proj'>
-                    <div>all projects</div>
-                </Route>
-                <Route exact path='/'>
-                    <App />
-                </Route>
-            </Switch>
-        </HashRouter>
-    </React.StrictMode>,
+    <HashRouter>
+        <Switch>
+            <Route exact path='/proj/viz'>
+                <div>visualizer</div>
+            </Route>
+            <Route exact path='/proj'>
+                <div>all projects</div>
+            </Route>
+            <Route exact path='/'>
+                <App />
+            </Route>
+        </Switch>
+    </HashRouter>,
     document.getElementById('root')
 );

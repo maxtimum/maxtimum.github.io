@@ -7,6 +7,7 @@ function updateParams(event) {
 }
 export default class Lorenz {
     constructor(params = { sigma: 10, rho: 28, beta: 8.0 / 3.0 }, dt = .00125) {
+        this.idx = 0
         this.params = params
         this.dt = dt
     }

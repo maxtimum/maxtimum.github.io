@@ -23,7 +23,7 @@ function App() {
     const [dt, setDT] = useState(.00125)
 
     const attractors = [new Lorenz(), new Thomas()]
-    const [attractor, setAttractor] = useState(attractors[1])
+    const [attractor, setAttractor] = useState(attractors[0])
 
     useEffect(() => {
         const scene = new THREE.Scene();
@@ -88,14 +88,19 @@ function App() {
         const idx = e.detail.idx
         const p = e.detail.p
         if (idx === 0) {
+            camera.position.set(0, 0, 75)
             attractors[0] = new Lorenz(p, dt)
             setAttractor(attractors[0])
         } else if (idx === 1) {
+            camera.position.set(0, 0, 15)
             attractors[1] = new Thomas(p, dt)
             setAttractor(attractors[1])
         }
     })
 
+    const updateAttractor = (e) => {
+        setAttractor(attractors[e.target.value])
+    }
     const updateParticleCount = (event) => {
         setParticles(event.target.value);
     };
@@ -119,6 +124,21 @@ function App() {
                 <Slide direction='left' in={options} mountOnEnter unmountOnExit>
                     <Paper style={{ position: 'absolute', top: '52px', right: '5px', width: '500px', overflow: 'hidden' }}>
                         <Grid container direction='column' style={{ padding: '.85rem' }}>
+                            <Grid item xs={12} style={{ marginBottom: '4px' }}>
+                                <FormControl
+                                    fullWidth
+                                >
+                                    <InputLabel>ATTRACTOR</InputLabel>
+                                    <Select
+                                        value={attractor.idx}
+                                        onChange={updateAttractor}
+                                    >
+                                        <MenuItem value={0}>LORENZ</MenuItem>
+                                        <MenuItem value={1}>THOMAS</MenuItem>
+                                    </Select>
+                                </FormControl>
+                            </Grid>
+
                             <Grid item container spacing={1}>
                                 {attractor.getInfoPanel()}
                             </Grid>

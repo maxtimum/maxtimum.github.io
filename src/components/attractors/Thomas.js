@@ -7,6 +7,7 @@ function updateParams(event) {
 }
 export default class Thomas {
     constructor(params = { b: .208186 }, dt = .00125) {
+        this.idx = 1
         this.params = params
         this.dt = 10 * dt
     }
