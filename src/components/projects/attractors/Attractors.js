@@ -11,8 +11,8 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import SettingsIcon from '@material-ui/icons/Settings'
 
-import Lorenz from './components/attractors/Lorenz';
-import Thomas from './components/attractors/Thomas';
+import Lorenz from '.Lorenz';
+import Thomas from './Thomas';
 
 function Attractors() {
     const [gridVisibility, setGridVisibility] = useState(false)
