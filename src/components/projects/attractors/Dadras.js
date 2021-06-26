@@ -4,16 +4,16 @@ function updateParams(event) {
     const f = new FormData(event.target)
     const res = {
         a: Number(f.get('a')), b: Number(f.get('b')), c: Number(f.get('c')),
-        d: Number(f.get('d')), e: Number(f.get('e')), f: Number(f.get('f'))
+        d: Number(f.get('d')), e: Number(f.get('e'))
     }
-    document.dispatchEvent(new CustomEvent('attractor_updated', { detail: { idx: 2, p: res } }))
+    document.dispatchEvent(new CustomEvent('attractor_updated', { detail: { idx: 3, p: res } }))
 }
-export default class Aizawa {
-    constructor(params = { a: 0.95, b: 0.7, c: 0.6, d: 3.5, e: 0.25, f: 0.1 }, dt = .00125) {
-        this.idx = 2
+export default class Dadras {
+    constructor(params = { a: 3, b: 2.7, c: 1.7, d: 2, e: 9 }, dt = .00125) {
+        this.idx = 3
         this.params = params
         this.dt = dt
-        this.defaultCam = { x: 0, y: 0, z: 15 }
+        this.defaultCam = { x: 0, y: 0, z: 50 }
     }
     updatePTS(positions) {
         for (let i = 0; i < positions.length; i += 3) {
@@ -21,12 +21,9 @@ export default class Aizawa {
             const _y = positions[i + 1]
             const _z = positions[i + 2]
 
-            const dx = ((_z - this.params.b) * _x - this.params.d * _y) * this.dt;
-            const dy = (this.params.d * _x + (_z - this.params.b) * _y) * this.dt
-            const dz_0 = this.params.c + (this.params.a * _z) - (Math.pow(_z, 3) / 3.0)
-            const dz_1 = ((_x * _x) + (_y * _y)) * (1 + (this.params.e * _z))
-            const dz_2 = this.params.f * _z * Math.pow(_x, 3)
-            const dz = (dz_0 - dz_1 + dz_2) * this.dt
+            const dx = (_y - (this.params.a * _x) + (this.params.b * _y * _z)) * this.dt;
+            const dy = ((this.params.c * _y) - (_x * _z) + _z) * this.dt
+            const dz = ((this.params.d * _x * _y) - (this.params.e * _z)) * this.dt
 
             positions[i] += dx
             positions[i + 1] += dy
@@ -37,11 +34,11 @@ export default class Aizawa {
     getInfoPanel() {
         return (<>
             <Grid item xs={8}>
-                <Typography>The Aizawa attractor has 6 parameters and makes a nice circular pattern. It is a little slow to start!</Typography>
+                <Typography>The Dadras attractor has 5 parameters, a-e! It is quite energetic and very pretty.</Typography>
                 <Typography>Try changing them and click 'update params' to restart the simulation!</Typography>
-                <Typography>dx/dt = (z-b)*x - d*y</Typography>
-                <Typography>dy/dt = d*x + (z-b)*y</Typography>
-                <Typography>dz/dt = c + a*z - z^3/3 - (x^2 + y^2)*(1 + e*z) + f*z*x^3</Typography>
+                <Typography>dx/dt = y - a*x  + b*y*z</Typography>
+                <Typography>dy/dt = c*y - x*z + z</Typography>
+                <Typography>dz/dt = d*x*y - e*z</Typography>
             </Grid>
             <Grid item xs={4}>
                 <form onSubmit={updateParams}>
@@ -50,7 +47,6 @@ export default class Aizawa {
                     <TextField name='c' defaultValue={this.params.c} inputProps={{ type: 'number', step: 'any' }} label='C' />
                     <TextField name='d' defaultValue={this.params.d} inputProps={{ type: 'number', step: 'any' }} label='D' />
                     <TextField name='e' defaultValue={this.params.e} inputProps={{ type: 'number', step: 'any' }} label='E' />
-                    <TextField name='f' defaultValue={this.params.f} inputProps={{ type: 'number', step: 'any' }} label='F' />
                     <Button fullWidth type='submit'>UPDATE</Button>
                 </form>
             </Grid>

@@ -5,7 +5,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 
 import {
     Button, Select, MenuItem, FormControl, InputLabel, Grid, Slide, Typography,
-    Switch, Divider, FormControlLabel, IconButton, Paper
+    Switch, Divider, FormControlLabel, IconButton, Paper, TextField
 } from '@material-ui/core'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
@@ -13,7 +13,9 @@ import SettingsIcon from '@material-ui/icons/Settings'
 
 import Lorenz from './Lorenz';
 import Thomas from './Thomas';
-import Aizawa from './Aizawa'
+import Aizawa from './Aizawa';
+import Dadras from './Dadras';
+import Chen from './Chen';
 
 function Attractors() {
     document.title = "~/p/strange-attractors"
@@ -24,7 +26,7 @@ function Attractors() {
     const [particles, setParticles] = useState(20000)
     const [dt, setDT] = useState(.00125)
 
-    const attractors = [new Lorenz(), new Thomas(), new Aizawa()]
+    const attractors = [new Lorenz(), new Thomas(), new Aizawa(), new Dadras(), new Chen()]
     const [attractor, setAttractor] = useState(attractors[0])
 
     useEffect(() => {
@@ -106,6 +108,12 @@ function Attractors() {
         } else if (idx === 2) {
             attractors[2] = new Aizawa(p, dt)
             setAttractor(attractors[2])
+        } else if (idx === 3) {
+            attractors[3] = new Dadras(p, dt)
+            setAttractor(attractors[3])
+        } else if (idx === 4) {
+            attractors[4] = new Chen(p, dt)
+            setAttractor(attractors[4])
         }
     })
 
@@ -113,7 +121,9 @@ function Attractors() {
         setAttractor(attractors[e.target.value])
     }
     const updateParticleCount = (event) => {
-        setParticles(event.target.value);
+        event.preventDefault()
+        const f = new FormData(event.target)
+        setParticles(Number(f.get('particles')))
     };
     const updateTimeStep = (event) => {
         setDT(event.target.value);
@@ -125,14 +135,14 @@ function Attractors() {
     const [options, setOptionsOpen] = useState(false)
     return (
         <div>
-            <div id='options' style={{ position: 'absolute', right: '5px', top: '0px' }}>
-                <Paper style={{ position: 'absolute', right: '5px', top: '0px' }}>
+            <div id='options' style={{ position: 'absolute', right: '0px', top: '0px' }}>
+                <Paper style={{ position: 'absolute', right: '0px', top: '0px' }}>
                     <IconButton onClick={() => setOptionsOpen(!options)}>
                         {options ? <><ChevronRightIcon /><SettingsIcon /></> : <><ChevronLeftIcon /><SettingsIcon /></>}
                     </IconButton>
                 </Paper>
                 <Slide direction='left' in={options} mountOnEnter unmountOnExit>
-                    <Paper style={{ position: 'absolute', top: '52px', right: '5px', width: '500px', overflow: 'hidden' }}>
+                    <Paper style={{ position: 'absolute', top: '52px', right: '0px', width: '500px', overflow: 'hidden' }}>
                         <Grid container direction='column' style={{ padding: '.85rem' }}>
                             <Grid item xs={12} style={{ marginBottom: '4px' }}>
                                 <FormControl
@@ -146,6 +156,8 @@ function Attractors() {
                                         <MenuItem value={0}>LORENZ</MenuItem>
                                         <MenuItem value={1}>THOMAS</MenuItem>
                                         <MenuItem value={2}>AIZAWA</MenuItem>
+                                        <MenuItem value={3}>DADRAS</MenuItem>
+                                        <MenuItem value={4}>CHEN</MenuItem>
                                     </Select>
                                 </FormControl>
                             </Grid>
@@ -162,21 +174,10 @@ function Attractors() {
                                             If the FPS is low, try setting this to a lower value.</Typography>
                                     </Grid>
                                     <Grid item xs={4}>
-                                        <FormControl
-                                            fullWidth
-                                        >
-                                            <InputLabel>PARTICLES</InputLabel>
-                                            <Select
-                                                value={particles}
-                                                onChange={updateParticleCount}
-                                            >
-                                                <MenuItem value={10000}>10000</MenuItem>
-                                                <MenuItem value={20000}>20000</MenuItem>
-                                                <MenuItem value={30000}>30000</MenuItem>
-                                                <MenuItem value={50000}>50000</MenuItem>
-                                                <MenuItem value={100000}>100000</MenuItem>
-                                            </Select>
-                                        </FormControl>
+                                        <form onSubmit={updateParticleCount}>
+                                            <TextField name='particles' defaultValue={particles} inputProps={{ type: 'number', step: 'any', min: '1' }} label='PARTICLE COUNT' />
+                                            <Button fullWidth type='submit'>UPDATE</Button>
+                                        </form>
                                     </Grid>
                                 </Grid>
                             </Grid>

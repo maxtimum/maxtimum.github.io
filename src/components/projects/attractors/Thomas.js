@@ -40,7 +40,7 @@ export default class Thomas {
             <Grid item xs={4}>
                 <form onSubmit={updateParams}>
                     <TextField name='b' defaultValue={this.params.b} inputProps={{ type: 'number', step: 'any' }} label='B' />
-                    <Button fullWidth type='submit'>UPDATE PARAMS</Button>
+                    <Button fullWidth type='submit'>UPDATE</Button>
                 </form>
             </Grid>
         </>
