@@ -114,7 +114,6 @@ function App() {
     const [options, setOptionsOpen] = useState(false)
     return (
         <div>
-            <div id='stats' style={{ height: '48px', width: '80px' }}></div>
             <div id='options' style={{ position: 'absolute', right: '5px', top: '0px' }}>
                 <Paper style={{ position: 'absolute', right: '5px', top: '0px' }}>
                     <IconButton onClick={() => setOptionsOpen(!options)}>
