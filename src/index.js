@@ -12,9 +12,6 @@ ReactDOM.render(
             <Route exact path='/p/strange-attractors'>
                 <Attractors />
             </Route>
-            <Route exact path='/p/'>
-                <div>all projects</div>
-            </Route>
             <Route exact path='/'>
                 <Homepage />
             </Route>
