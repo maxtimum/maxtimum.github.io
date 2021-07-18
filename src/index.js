@@ -2,19 +2,18 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { HashRouter, Switch, Route } from 'react-router-dom';
 import './index.css';
+
+import Homepage from './components/homepage/Homepage';
 import Attractors from './components/projects/attractors/Attractors';
 
 ReactDOM.render(
-    <HashRouter>
+    <HashRouter basename='/'>
         <Switch>
             <Route exact path='/p/strange-attractors'>
-                <div>visualizer</div>
-            </Route>
-            <Route exact path='/p/'>
-                <div>all projects</div>
+                <Attractors />
             </Route>
             <Route exact path='/'>
-                <Attractors />
+                <Homepage />
             </Route>
         </Switch>
     </HashRouter>,
