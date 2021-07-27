@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import { Link } from 'react-router-dom'
-import { Grid, Collapse, Typography, Link as HLink } from '@material-ui/core'
+import { Grid, Collapse, Typography, Link as HLink, IconButton } from '@material-ui/core'
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles'
+import LinkIcon from '@material-ui/icons/Link';
+import InfoIcon from '@material-ui/icons/Info';
+
 function Homepage() {
     const projects = [
         {
@@ -68,7 +71,7 @@ function Homepage() {
 
     return (
         <ThemeProvider theme={theme}>
-            <Grid container direction='row' spacing={0}
+            <Grid container direction='column' spacing={0}
                 style={{
                     width: '70%', position: 'absolute', left: '15%',
                     paddingTop: '2em', paddingBottom: '2em'
@@ -135,33 +138,51 @@ function Spacer() {
 }
 function Project(p) {
     const [infoPanel, setInfoPanel] = useState(false)
-    const techUsed = (<Typography variant='subtitle1'>{p.tech.join(' · ')}</Typography>)
-    const linkOrNothing = p.link ? <Link to={p.link} target='_blank' style={{ textDecoration: 'none' }}>🡥</Link> : ''
+    const techUsed = <Typography variant='subtitle1'>{p.tech.join(' · ')}</Typography>
+    const linkOrNothing = p.link ?
+        <Link className='link-hover' to={p.link} target='_blank' style={{ textDecoration: 'none' }}>
+            <IconButton size='small' color='inherit'>
+                <LinkIcon />
+            </IconButton>
+        </Link>
+        : ''
+
     return (
         <Grid item xs={12} >
-            {p.info[0] ?
-                <>
-                    <Typography className='is-dropdown' variant='h6' onClick={() => setInfoPanel(!infoPanel)}>
-                        {p.title} 🛈 {linkOrNothing}
+            <Grid container style={{ width: '100%' }} alignItems='center'>
+                <Grid item>
+                    <Typography variant='h6'>
+                        {p.title}
                     </Typography>
+                </Grid>
+
+                <Grid item>
+                    <IconButton size='small' color='inherit' className='is-dropdown' onClick={() => setInfoPanel(!infoPanel)}>
+                        <InfoIcon />
+                    </IconButton>
+                </Grid>
+
+                <Grid item>
+                    {linkOrNothing}
+                </Grid>
+
+                <Grid item xs={12} style={{ width: '100%' }}>
                     {techUsed}
+                </Grid>
+
+                <Grid item xs={12}>
                     <Collapse in={infoPanel} style={{ backgroundColor: '#000000', opacity: '75%' }}>
                         {p.info.map((i) => {
                             return (
-                                <Typography variant='body1'>
+                                <Typography variant='body1' style={{ opacity: '100%' }}>
                                     • {i}
                                 </Typography>
                             )
                         })}
                     </Collapse>
-                </>
-                :
-                <>
-                    <Typography variant='h6'>{p.title} {linkOrNothing}</Typography>
-                    {techUsed}
-                </>
-            }
-        </Grid>
+                </Grid>
+            </Grid>
+        </Grid >
     )
 }
 export default Homepage;
