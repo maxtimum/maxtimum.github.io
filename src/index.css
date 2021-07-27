@@ -22,7 +22,9 @@ a{
   background-color: #f3f3f3;
 }
 .is-dropdown:hover{
-    cursor: pointer;
     transition: .5s;
+    color: #eed70b;
+}
+.link-hover:hover{
     color: #25a8e0;
 }
